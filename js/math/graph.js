@@ -24,7 +24,7 @@ class Graph {
     this.segments.push(seg);
   }
 
-  containSegment(seg) {
+  containsSegment(seg) {
     return this.segments.find((s) => s.equals(seg));
   }
 
