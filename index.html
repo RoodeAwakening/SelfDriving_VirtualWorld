@@ -9,11 +9,38 @@
   <body>
     <h1>World Editor</h1>
     <canvas id="myCanvas" width="800" height="600"></canvas>
+    <div id="controls">
+      <button onclick="addRandomPoint()">Add Point</button>
+      <button onclick="addRandomSegment()">Add Segment</button>
+    </div>
 
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script src="js/math/graph.js"></script>
+
     <script>
+      const addRandomSegment = () => { 
+        const index1 = Math.floor(Math.random() * graph.points.length);
+        const index2 = Math.floor(Math.random() * graph.points.length);
+        let success = false;
+        while (!success) {
+          if (index1 !== index2) {
+            success = graph.tryAddSegment(new Segment(graph.points[index1], graph.points[index2]));}
+        }
+        graph.addSegment(new Segment(graph.points[index1], graph.points[index2]));
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+      }
+
+      const addRandomPoint = () => {
+        const x = Math.floor(Math.random() * myCanvas.width);
+        const y = Math.floor(Math.random() * myCanvas.height);
+        const p = new Point(x, y);
+        graph.addPoint(p);
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+      };
+
       myCanvas.width = 600;
       myCanvas.height = 600;
 
@@ -25,8 +52,13 @@
       const p3 = new Point(400, 400);
       const p4 = new Point(100, 300);
 
+      const s1 = new Segment(p1, p2);
+      const s2 = new Segment(p1, p3);
+      const s3 = new Segment(p1, p4);
+      const s4 = new Segment(p2, p3);
+
       // creating a new graph
-      const graph = new Graph([p1, p2, p3, p4]);
+      const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
 
       // adding a point to the graph
       graph.draw(ctx);
